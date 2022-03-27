@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type {Program} from "@/stores/programs";
+import type { Program } from "@/stores/programs";
 
 interface Props {
   program: Program;
-};
+}
 
 const props = defineProps<Props>();
 

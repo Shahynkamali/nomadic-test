@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-
 </script>
 
 <template>
   <header>
-    <img
-      alt="Nomadic logo"
-      class="logo"
-      src="@/assets/roundlogo.png"
-      width="70"
-      height="70"
-    />
+    <img alt="Nomadic logo" class="logo" src="@/assets/roundlogo.png" width="70" height="70" />
 
     <h1>Nomadic Program Sample</h1>
   </header>

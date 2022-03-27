@@ -1,26 +1,26 @@
 openapi: 3.0.0
 info:
-  version: '1.0.0'
-  title: 'Programs'
+  version: "1.0.0"
+  title: "Programs"
   license:
     name: MIT
 servers:
-  - url: 'https://sample-api.staging.nomadic.fm/api'
+  - url: "https://sample-api.staging.nomadic.fm/api"
 paths:
   /programs:
     get:
-      summary: 'List all available Programs'
+      summary: "List all available Programs"
       operationId: listPrograms
       responses:
-        '200':
-          description: 'List of Programs'
+        "200":
+          description: "List of Programs"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProgramList'
+                $ref: "#/components/schemas/ProgramList"
   /programs/{id}:
     get:
-      summary: 'Return details about a single Program'
+      summary: "Return details about a single Program"
       operationId: listProgram
       parameters:
         - name: id
@@ -31,16 +31,16 @@ paths:
             type: integer
             format: int32
       responses:
-        '200':
-          description: 'Sample response: Details about a Program by ID'
+        "200":
+          description: "Sample response: Details about a Program by ID"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Program'
-        '404':
-            description: 'Program not found'
+                $ref: "#/components/schemas/Program"
+        "404":
+          description: "Program not found"
     patch:
-      summary: 'Enrol/unenrol in a Program'
+      summary: "Enrol/unenrol in a Program"
       operationId: listProgram
       parameters:
         - name: id
@@ -61,13 +61,13 @@ paths:
                 enrolled:
                   type: boolean
       responses:
-        '204':
-          description: 'Success'
-        '404':
-            description: 'Program not found'
+        "204":
+          description: "Success"
+        "404":
+          description: "Program not found"
   /programs/{id}/team:
     get:
-      summary: 'Return team details for a Program'
+      summary: "Return team details for a Program"
       operationId: listTeam
       parameters:
         - name: id
@@ -78,14 +78,14 @@ paths:
             type: integer
             format: int32
       responses:
-        '200':
-          description: 'Sample response: Team details for a Program by ID'
+        "200":
+          description: "Sample response: Team details for a Program by ID"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamDetail'
-        '404':
-            description: 'Program not found, or not enrolled in a team'
+                $ref: "#/components/schemas/TeamDetail"
+        "404":
+          description: "Program not found, or not enrolled in a team"
 components:
   schemas:
     Program:
@@ -106,9 +106,9 @@ components:
         enrolled:
           type: boolean
     ProgramList:
-        type: array
-        items:
-          $ref: '#/components/schemas/Program'
+      type: array
+      items:
+        $ref: "#/components/schemas/Program"
     TeamDetail:
       type: object
       required:

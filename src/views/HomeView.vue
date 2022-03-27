@@ -1,24 +1,22 @@
 <script setup lang="ts">
 import ProgramTile from "@/components/ProgramTile.vue";
 import { useProgramsStore } from "@/stores/programs";
-
+import { onMounted } from "vue";
 const store = useProgramsStore();
-store.loadPrograms();
+onMounted(() => store.loadPrograms());
 </script>
 
 <template>
   <main>
     <section>
       <h2>Enrolled Programs</h2>
-      <p>
-        You have not enrolled in any Programs yet. Click on a Program below to
-        enrol.
-      </p>
+      <p>You have not enrolled in any Programs yet. Click on a Program below to enrol.</p>
     </section>
     <section>
       <h2>All Programs</h2>
       <div class="tiles" v-if="store.programs !== null">
         <ProgramTile
+          @click="store.enableEnrolment(program.id)"
           :program="program"
           v-for="program in store.programs"
           :key="program.id"
