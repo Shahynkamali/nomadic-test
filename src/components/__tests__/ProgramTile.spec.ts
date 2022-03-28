@@ -8,25 +8,23 @@ describe("ProgramTile", () => {
   beforeEach(() => {
     enrolled = false;
   });
-  it("renders properly", () => {
-    const wrapper = mount(ProgramTile, {
-      props: { program: { title: "Example Program", id: 1, image: "kljads", enrolled } },
+  const createWrapper = () =>
+    mount(ProgramTile, {
+      props: { program: { title: "Example Program", id: 1, image: "image", enrolled } },
     });
+  it("renders properly", () => {
+    const wrapper = createWrapper();
     expect(wrapper.text()).toContain("Example Program");
   });
 
-  it("renders Start Now is the user is already enrolled", () => {
-    const wrapper = mount(ProgramTile, {
-      props: { program: { title: "Example Program", id: 1, image: "kljads", enrolled } },
-    });
+  it("renders Start Now is the user is not enrolled", () => {
+    const wrapper = createWrapper();
     expect(wrapper.text()).toContain("Start Now");
   });
 
   it("renders Enrolled is the user is already enrolled", () => {
     enrolled = true;
-    const wrapper = mount(ProgramTile, {
-      props: { program: { title: "Example Program", id: 1, image: "kljads", enrolled } },
-    });
+    const wrapper = createWrapper();
     expect(wrapper.text()).toContain("Enrolled");
   });
 });
