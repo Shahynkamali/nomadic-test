@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 export interface Program {
   id: number;
@@ -11,49 +11,52 @@ export interface Program {
 
 type Programs = Program[];
 
+export interface ProgramTeam {
+  name: string;
+  initials: string;
+  color: string;
+  your_progress: number;
+  team_progress: number;
+}
+
 export const useProgramsStore = defineStore("programs", () => {
   const programs = ref<Programs>([]);
-  const fetchPrograms = async () => {
-    const response = await axios.get<Programs>("programs");
-    programs.value = response.data;
+  const getPrograms = async () => {
+    const { data } = await axios.get<Programs>("programs");
+    programs.value = data;
   };
 
-  const fetchProgramTeamDetails = async (id: number) => {
-    const { data } = await axios.get<Program>(`programs/${id}/team`);
-    return { data };
+  const getProgramTeam = async (id: number) => {
+    const { data, status } = await axios.get<ProgramTeam>(`programs/${id}/team`);
+    return { data, status };
   };
 
-  const enableEnrolment = async (id: number) => {
-    const { status } = await axios.patch(`programs/${id}`, { enrolled: true });
+  const getProgram = async (id: number) => {
+    const { data, status } = await axios.get<Program>(`programs/${id}`);
+    return { data, status };
+  };
+
+  const toggleEnrolment = async (id: number, isEnrolled: boolean) => {
+    const { status } = await axios.patch(`programs/${id}`, { enrolled: !isEnrolled });
     if (status === 204) {
       const selectedProgram = programs.value.find(program => program.id === id) as Program;
       programs.value = programs.value.map(program =>
-        program.id === selectedProgram.id ? { ...selectedProgram, enrolled: true } : program
+        program.id === selectedProgram.id ? { ...selectedProgram, enrolled: !isEnrolled } : program
       );
     }
   };
 
-  const disableEnrolment = async (id: number) => {
-    const { status } = await axios.patch(`programs/${id}`, { enrolled: false });
-    if (status === 204) {
-      const selectedProgram = programs.value.find(program => program.id === id) as Program;
-      programs.value = programs.value.map(program =>
-        program.id === selectedProgram.id ? { ...selectedProgram, enrolled: false } : program
-      );
-    }
-  };
-
-  const hasEnrolledPrograms = computed(() => programs.value.some(program => program.enrolled));
-  const enrolledPrograms = computed(() => programs.value.filter(program => program.enrolled));
-  const enrolledProgramIds = computed(() => enrolledPrograms.value.map(({ id, ...rest }) => id));
+  const hasEnroledPrograms = computed(() => programs.value.some(program => program.enrolled));
+  const enroledPrograms = computed(() => programs.value.filter(program => program.enrolled));
+  const enroledProgramIds = computed(() => enroledPrograms.value.map(({ id, ...rest }) => id));
 
   return {
+    getPrograms,
+    getProgramTeam,
+    getProgram,
+    toggleEnrolment,
     programs,
-    fetchPrograms,
-    enableEnrolment,
-    disableEnrolment,
-    fetchProgramTeamDetails,
-    hasEnrolledPrograms,
-    enrolledProgramIds,
+    hasEnroledPrograms,
+    enroledProgramIds,
   };
 });

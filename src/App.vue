@@ -5,7 +5,6 @@ import { RouterView } from "vue-router";
 <template>
   <header>
     <img alt="Nomadic logo" class="logo" src="@/assets/roundlogo.png" width="70" height="70" />
-
     <h1>Nomadic Program Sample</h1>
   </header>
 
@@ -14,6 +13,7 @@ import { RouterView } from "vue-router";
 
 <style>
 @import "@/assets/base.css";
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
 
 #app {
   max-width: 1280px;

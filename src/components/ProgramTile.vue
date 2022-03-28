@@ -8,6 +8,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
+const isEnrolled = computed(() => props.program.enrolled);
+
 const programImageUrl = computed(() => {
   const image = encodeURIComponent(props.program.image);
   return `https://res.cloudinary.com/nomadic/image/fetch/w_550,h_715,c_fill,e_blur:0,g_north,f_auto,q_80/${image}`;
@@ -15,7 +17,10 @@ const programImageUrl = computed(() => {
 </script>
 
 <template>
-  <div class="program-tile">
+  <div
+    class="program-tile"
+    :class="[isEnrolled ? 'program-tile--active' : 'program-tile--non-active']"
+  >
     <div class="image-tile-wrapper">
       <div class="image-tile">
         <img :src="programImageUrl" :alt="'Cover image for ' + program.title" />
@@ -26,7 +31,7 @@ const programImageUrl = computed(() => {
     </p>
     <p class="schedule">
       <span class="indicator"></span>
-      <span v-if="program.enrolled">Enrolled</span>
+      <span v-if="isEnrolled">Enrolled</span>
       <span v-else>Start Now</span>
     </p>
   </div>
@@ -34,7 +39,6 @@ const programImageUrl = computed(() => {
 
 <style lang="less" scoped>
 .program-tile {
-  cursor: pointer;
   .image-tile-wrapper {
     position: relative;
     margin-bottom: 0.5em;
@@ -60,7 +64,6 @@ const programImageUrl = computed(() => {
       border-radius: 12px;
       -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
       box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
       overflow: hidden;
 
       img {
@@ -126,5 +129,13 @@ const programImageUrl = computed(() => {
       background: #999999;
     }
   }
+}
+
+.program-tile--active {
+  cursor: auto;
+}
+
+.program-tile--non-active {
+  cursor: pointer;
 }
 </style>
