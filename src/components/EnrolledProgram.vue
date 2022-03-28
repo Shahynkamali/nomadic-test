@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { useProgramsStore, type ProgramTeam, type Program } from "@/stores/programs";
-import { computed, onMounted, reactive } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import BaseButton from "./BaseButton.vue";
 import UserAvatar from "./UserAvatar.vue";
-import PorgressBar from "./PorgressBar.vue";
+import PorgressBar from "./ProgressBar.vue";
+import ErrorBox from "./ErrorBox.vue";
+import AvatarImage from "@/assets/avatar.png";
 
 const programImageUrl = computed(() => {
   if (state.program?.image) {
     const image = encodeURIComponent(state.program?.image);
     return `https://res.cloudinary.com/nomadic/image/fetch/w_550,h_715,c_fill,e_blur:0,g_north,f_auto,q_80/${image}`;
   }
+  return "";
 });
 
 interface Props {
@@ -18,15 +21,15 @@ interface Props {
 interface State {
   team?: ProgramTeam;
   program?: Program;
-  hasError: boolean;
 }
 
 const props = defineProps<Props>();
 const state = reactive({
   team: undefined,
   program: undefined,
-  hasError: false,
 }) as State;
+
+const error = ref("");
 
 const store = useProgramsStore();
 const { getProgramTeam, getProgram, toggleEnrolment } = store;
@@ -38,15 +41,13 @@ const removeProgram = (id?: number, isEnrolled?: boolean) => {
 };
 
 onMounted(async () => {
-  const { data: teamData, status: teamStatus } = await getProgramTeam(props.id);
-  state.team = { ...teamData };
-
-  const { data: programData, status: programStatus } = await getProgram(props.id);
-  state.program = { ...programData };
-  if (teamStatus || programStatus === 404) {
-    state.hasError = true;
-  } else {
-    state.hasError = false;
+  try {
+    const { data: teamData } = await getProgramTeam(props.id);
+    const { data: programData } = await getProgram(props.id);
+    state.team = { ...teamData };
+    state.program = { ...programData };
+  } catch (e) {
+    error.value = "Oops something went wrong";
   }
 });
 </script>
@@ -65,13 +66,7 @@ onMounted(async () => {
       <h3 class="card__title">{{ state.team.name }}</h3>
       <div class="card__columns">
         <div class="card__column--small card__column--center">
-          <img
-            alt="Nomadic logo"
-            class="card__avatar"
-            src="@/assets/avatar.png"
-            width="60"
-            height="60"
-          />
+          <UserAvatar :image="AvatarImage" />
         </div>
         <div class="card__column--large">
           <h4 class="card__description">Your progress</h4>
@@ -95,12 +90,14 @@ onMounted(async () => {
           <BaseButton
             :on-click="() => removeProgram(state?.program?.id, state?.program?.enrolled)"
             :outlined="true"
-            >remove</BaseButton
           >
+            remove
+          </BaseButton>
         </div>
       </div>
     </div>
   </div>
+  <ErrorBox v-else-if="error.length" />
 </template>
 
 <style scoped lang="less">

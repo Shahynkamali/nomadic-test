@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ProgramTeam } from "@/stores/programs";
-
 interface Props {
   progress?: number;
 }
