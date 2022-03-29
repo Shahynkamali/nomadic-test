@@ -13,8 +13,7 @@ import { RouterView } from "vue-router";
 
 <style>
 @import "@/assets/base.css";
-@import url("https://fonts.googleapis.com/css?family=Roboto:400,700");
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 #app {
   max-width: 1280px;
   margin: 0 auto;

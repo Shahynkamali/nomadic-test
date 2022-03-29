@@ -37,8 +37,9 @@ const props = defineProps<Props>();
 }
 
 .avatar__initials {
+  font-family: "Roboto", sans-serif;
   color: #ffffff;
   font-size: 21px;
-  font-weight: bold;
+  font-weight: 700;
 }
 </style>

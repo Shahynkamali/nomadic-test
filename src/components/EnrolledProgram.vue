@@ -141,9 +141,10 @@ onMounted(async () => {
 }
 
 .card__title {
+  font-family: "Roboto", sans-serif;
   font-size: 24px;
   color: #ffffff;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 20px;
 }
 
@@ -184,5 +185,6 @@ onMounted(async () => {
   color: #ffffff;
   font-size: 16px;
   font-weight: 700;
+  font-family: "Roboto", sans-serif;
 }
 </style>

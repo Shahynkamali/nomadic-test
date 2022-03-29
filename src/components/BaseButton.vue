@@ -23,10 +23,11 @@ defineProps<Props>();
   outline: none;
   display: inline-flex;
   justify-content: center;
-  font-size: medium;
+  font-size: 700;
   border: transparent;
   text-align: center;
   cursor: pointer;
+  font-family: "Roboto", sans-serif;
 }
 
 .button--outlined {

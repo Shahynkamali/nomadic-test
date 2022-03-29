@@ -76,10 +76,11 @@ const programImageUrl = computed(() => {
       }
 
       .title {
+        font-family: "Roboto", sans-serif;
         padding: 0.6em;
         color: white;
         text-transform: none;
-        font-weight: bold;
+        font-weight: 700;
         position: relative;
         font-size: 1.8em;
         font-weight: 200;
@@ -94,7 +95,7 @@ const programImageUrl = computed(() => {
   }
 
   strong {
-    font-weight: bold;
+    font-weight: 700;
   }
 
   &:hover {

@@ -26,6 +26,7 @@ defineProps<Props>();
 }
 
 .progress__description {
+  font-family: "Roboto", sans-serif;
   color: #ffffff;
   font-size: 16px;
   font-weight: 400;
