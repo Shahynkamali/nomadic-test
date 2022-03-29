@@ -44,12 +44,7 @@ export const useProgramsStore = defineStore("programs", () => {
 
   const toggleEnrolment = async (id: number, isEnrolled: boolean) => {
     const { status } = await axios.patch(`programs/${id}`, { enrolled: !isEnrolled });
-    if (status === 204) {
-      const selectedProgram = programs.value.find(program => program.id === id) as Program;
-      programs.value = programs.value.map(program =>
-        program.id === selectedProgram.id ? { ...selectedProgram, enrolled: !isEnrolled } : program
-      );
-    }
+    if (status === 204) await getPrograms();
   };
 
   const hasEnroledPrograms = computed(() => programs.value.some(program => program.enrolled));

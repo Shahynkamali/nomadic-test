@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import ProgramTile from "@/components/ProgramTile.vue";
-import { useProgramsStore } from "@/stores/programs";
-import { onMounted, computed } from "vue";
-import EnrolledProgram from "@/components/EnrolledProgram.vue";
 import { storeToRefs } from "pinia";
+import { useProgramsStore } from "@/stores/programs";
+import { onMounted } from "vue";
+import ProgramTile from "@/components/ProgramTile.vue";
+import EnrolledProgram from "@/components/EnrolledProgram.vue";
 import ErrorBox from "@/components/ErrorBox.vue";
 
 const store = useProgramsStore();
@@ -14,7 +14,6 @@ const enrolProgram = (id: number, enroled: boolean) => {
   if (!enroled) toggleEnrolment(id, enroled);
   return null;
 };
-const hasOneProgram = computed(() => enroledProgramIds.value.length === 1);
 onMounted(async () => getPrograms());
 </script>
 
@@ -26,11 +25,7 @@ onMounted(async () => getPrograms());
         You have not enrolled in any Programs yet. Click on a Program below to enrol.
       </p>
 
-      <div
-        class="tiles"
-        :class="[hasOneProgram ? 'tiles__single' : 'tiles__small']"
-        v-if="hasEnroledPrograms"
-      >
+      <div class="tiles tiles__small" v-if="hasEnroledPrograms">
         <EnrolledProgram v-for="id in enroledProgramIds" :id="id" :key="id" />
       </div>
     </section>
@@ -69,18 +64,10 @@ h2 {
 }
 
 .tiles__small {
-  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
 
   @media (max-width: 580px) {
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  }
-}
-
-.tiles__single {
-  grid-template-columns: repeat(2, 1fr);
-
-  @media (max-width: 780px) {
-    grid-template-columns: repeat(1, 1fr);
   }
 }
 </style>

@@ -7,14 +7,6 @@ import PorgressBar from "./ProgressBar.vue";
 import ErrorBox from "./ErrorBox.vue";
 import AvatarImage from "@/assets/avatar.png";
 
-const programImageUrl = computed(() => {
-  if (state.program?.image) {
-    const image = encodeURIComponent(state.program?.image);
-    return `https://res.cloudinary.com/nomadic/image/fetch/w_550,h_715,c_fill,e_blur:0,g_north,f_auto,q_80/${image}`;
-  }
-  return "";
-});
-
 interface Props {
   id: Program["id"];
 }
@@ -22,6 +14,14 @@ interface State {
   team?: ProgramTeam;
   program?: Program;
 }
+
+const programImageUrl = computed(() => {
+  if (state.program?.image) {
+    const image = encodeURIComponent(state.program.image);
+    return `https://res.cloudinary.com/nomadic/image/fetch/w_550,h_715,c_fill,e_blur:0,g_north,f_auto,q_80/${image}`;
+  }
+  return "";
+});
 
 const props = defineProps<Props>();
 const state = reactive({
@@ -58,28 +58,28 @@ onMounted(async () => {
       <img
         class="card__image"
         :src="programImageUrl"
-        :alt="'Cover image for ' + state.program.title"
+        :alt="'Cover image for ' + state.program?.title"
       />
     </div>
 
     <div class="card__content">
-      <h3 class="card__title">{{ state.team.name }}</h3>
+      <h3 class="card__title">{{ state.program?.title }}</h3>
       <div class="card__columns">
         <div class="card__column--small card__column--center">
           <UserAvatar :image="AvatarImage" />
         </div>
         <div class="card__column--large">
           <h4 class="card__description">Your progress</h4>
-          <PorgressBar :progress="state.team.your_progress" />
+          <PorgressBar :progress="state.team?.your_progress" />
         </div>
       </div>
       <div class="card__columns">
         <div class="card__column--small card__column--center">
-          <UserAvatar :initials="state.team.initials" :color="state.team.color" />
+          <UserAvatar :initials="state.team?.initials" :color="state.team?.color" />
         </div>
         <div class="card__column--large">
-          <h4 class="card__description">Your team: {{ state.team.name }}</h4>
-          <PorgressBar :progress="state.team.team_progress" />
+          <h4 class="card__description">Your team: {{ state.team?.name }}</h4>
+          <PorgressBar :progress="state.team?.team_progress" />
         </div>
       </div>
       <div class="card__columns card__column--no-margin card__column--space-between">
@@ -88,7 +88,7 @@ onMounted(async () => {
         </div>
         <div class="card__column--small card__column--align-right card__column--no-margin">
           <BaseButton
-            :on-click="() => removeProgram(state?.program?.id, state?.program?.enrolled)"
+            :on-click="() => removeProgram(state.program?.id, state.program?.enrolled)"
             :outlined="true"
           >
             remove
@@ -114,9 +114,6 @@ onMounted(async () => {
 .card__image-wrapper {
   width: 100%;
   margin: 20px;
-}
-
-.card__image-wrapper {
   display: inline-flex;
 }
 
@@ -165,12 +162,6 @@ onMounted(async () => {
   width: 100%;
 }
 
-.card__description {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
-}
-
 .card__column--no-margin {
   margin: 0;
 }
@@ -187,5 +178,11 @@ onMounted(async () => {
 .card__column--center {
   display: flex;
   justify-content: center;
+}
+
+.card__description {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
 }
 </style>

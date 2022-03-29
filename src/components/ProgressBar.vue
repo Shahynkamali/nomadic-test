@@ -2,12 +2,12 @@
 interface Props {
   progress?: number;
 }
-
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
+
 <template>
-  <progress class="progress" id="file" :value="props.progress" max="100" />
-  <p class="progress__description">{{ props.progress }}% Complete</p>
+  <progress class="progress" id="file" :value="progress" max="100" />
+  <p class="progress__description">{{ progress }}% Complete</p>
 </template>
 
 <style scoped lang="less">

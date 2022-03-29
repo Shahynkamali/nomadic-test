@@ -1,5 +1,5 @@
 <template>
-  <div class="error-msg">Sorry something went wrong!</div>
+  <div class="error-msg"><span>Sorry something went wrong!</span></div>
 </template>
 
 <style>
